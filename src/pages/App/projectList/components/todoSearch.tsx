@@ -16,9 +16,15 @@ export default function Search({ users, param, setParam }) {
   );
 
   function changeInput(event) {
-    console.log(event);
+    setParam({
+      ...param,
+      name: event.target.value,
+    });
   }
   function changeSelect(event) {
-    console.log(event);
+    setParam({
+      ...param,
+      personId: event.target.value,
+    });
   }
 }

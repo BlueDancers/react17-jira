@@ -3,7 +3,7 @@ import qs from "qs";
 import { useEffect, useState } from "react";
 import TodoSearch from "./components/todoSearch";
 import TodoTable from "./components/todoTable";
-import { cancelObj } from "../../../utils";
+import { cancelObj, useDebounce, useMount } from "../../../utils";
 
 // 请求地址
 const Url = "http://localhost:3001";
@@ -15,7 +15,7 @@ export default function List() {
     name: "",
     personId: "",
   });
-  useEffect(() => {
+  useMount(() => {
     fetch(`${Url}/users`)
       .then(async (res) => {
         if (res.ok) {
@@ -26,12 +26,12 @@ export default function List() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
+  });
+  // 经过去抖处理的参数
+  const debounceParam = useDebounce(param, 2000);
+  // 去抖处理的
   useEffect(() => {
-    console.log(param);
-
-    fetch(`${Url}/projects?${qs.stringify(cancelObj(param))}`)
+    fetch(`${Url}/projects?${qs.stringify(cancelObj(debounceParam))}`)
       .then(async (res) => {
         if (res.ok) {
           let data = await res.json();
@@ -41,7 +41,7 @@ export default function List() {
       .catch((err) => {
         console.log(err);
       });
-  }, [param]);
+  }, [debounceParam]);
 
   return (
     <div>

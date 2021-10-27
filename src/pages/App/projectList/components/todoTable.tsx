@@ -1,4 +1,11 @@
-export default function Table({ list, users }) {
+import { User } from "./todoSearch";
+
+interface TodTableProps {
+  list: any[];
+  users: User[];
+}
+
+export default function Table({ list, users }: TodTableProps) {
   return (
     <table>
       <thead>

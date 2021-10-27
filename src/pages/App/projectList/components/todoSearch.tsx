@@ -1,10 +1,22 @@
-import { useEffect, useState } from "react";
+interface TodoSearchProps {
+  users: User[];
+  param: {
+    name: string;
+    personId: string;
+  };
+  setParam: (param: TodoSearchProps["param"]) => void;
+}
 
-export default function Search({ users, param, setParam }) {
+export interface User {
+  name: string;
+  id: string;
+}
+
+export default function Search({ users, param, setParam }: TodoSearchProps) {
   return (
     <div>
       <input type="text" value={param.name} onChange={changeInput} />
-      <select value={param.presonId} onChange={changeSelect}>
+      <select value={param.personId} onChange={changeSelect}>
         <option value="">全部</option>
         {users.map((user) => (
           <option key={user.id} value={user.id}>

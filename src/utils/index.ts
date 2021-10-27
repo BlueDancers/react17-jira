@@ -42,3 +42,30 @@ export function useDebounce<V>(value: V, delay: number = 2000) {
 
   return debounceValue;
 }
+
+/**
+ * hook处理的Array
+ * @param value
+ * @returns
+ */
+export function useArray<V>(value: V[]) {
+  const [arrayValue, setArrayValue] = useState(value);
+  const clear = () => {
+    setArrayValue([]);
+  };
+  const add = (value: V) => {
+    setArrayValue([...arrayValue, value]);
+  };
+  const removeIndex = (index: number) => {
+    let value = [...arrayValue];
+    value.splice(index, 1);
+    setArrayValue(value);
+  };
+
+  return {
+    value: arrayValue,
+    add,
+    clear,
+    removeIndex,
+  };
+}

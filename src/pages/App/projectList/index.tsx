@@ -3,7 +3,7 @@ import qs from "qs";
 import { useEffect, useState } from "react";
 import TodoSearch from "./components/todoSearch";
 import TodoTable from "./components/todoTable";
-import { cancelObj, useDebounce, useMount } from "../../../utils";
+import { cancelObj, useArray, useDebounce, useMount } from "../../../utils";
 
 // 请求地址
 const Url = process.env.REACT_APP_API_URL;
@@ -15,7 +15,21 @@ export default function List() {
     name: "",
     personId: "",
   });
+  const [arrays, setArrays] = useState([
+    {
+      aaa: 2,
+    },
+    {
+      aaa: 1,
+    },
+  ]);
+  const { value, add, clear, removeIndex } = useArray(arrays);
   useMount(() => {
+    add({
+      aaa: 1,
+    });
+    console.log("arrys", value);
+
     fetch(`${Url}/users`)
       .then(async (res) => {
         if (res.ok) {

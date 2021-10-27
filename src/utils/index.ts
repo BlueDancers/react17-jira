@@ -28,7 +28,7 @@ export function useMount(fn: () => void) {
  * @param delay 防抖时间
  * @returns 变化后变量
  */
-export function useDebounce(value: any, delay: number = 2000) {
+export function useDebounce<V>(value: V, delay: number = 2000) {
   // 声明一个保存防抖结果的字段
   const [debounceValue, setDebounceValue] = useState(value);
   useEffect(() => {

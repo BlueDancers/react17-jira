@@ -6,7 +6,7 @@ import TodoTable from "./components/todoTable";
 import { cancelObj, useDebounce, useMount } from "../../../utils";
 
 // 请求地址
-const Url = "http://localhost:3001";
+const Url = process.env.REACT_APP_API_URL;
 
 export default function List() {
   const [users, setUsers]: any = useState([]);
@@ -28,7 +28,7 @@ export default function List() {
       });
   });
   // 经过去抖处理的参数
-  const debounceParam = useDebounce(param, 2000);
+  const debounceParam = useDebounce(param, 200);
   // 去抖处理的
   useEffect(() => {
     fetch(`${Url}/projects?${qs.stringify(cancelObj(debounceParam))}`)

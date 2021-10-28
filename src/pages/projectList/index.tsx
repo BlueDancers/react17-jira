@@ -3,7 +3,7 @@ import qs from "qs";
 import { useEffect, useState } from "react";
 import TodoSearch from "./components/todoSearch";
 import TodoTable from "./components/todoTable";
-import { cancelObj, useArray, useDebounce, useMount } from "../../../utils";
+import { cancelObj, useArray, useDebounce, useMount } from "../../utils";
 
 // 请求地址
 const Url = process.env.REACT_APP_API_URL;

@@ -1,17 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-// import ProjectList from "./pages/App/projectList";
-import ReactLogin from "./pages/App/login";
+import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
+import { AuthProvider } from "./context/auth-context";
 
 loadDevTools(() => {
   ReactDOM.render(
     <React.StrictMode>
-      {/* <App /> */}
-      {/* <ProjectList></ProjectList> */}
-      <ReactLogin></ReactLogin>
+      <AuthProvider>
+        <App></App>
+      </AuthProvider>
     </React.StrictMode>,
 
     document.getElementById("root")

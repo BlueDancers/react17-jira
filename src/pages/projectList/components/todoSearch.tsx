@@ -10,6 +10,7 @@ interface TodoSearchProps {
 export interface User {
   name: string;
   id: string;
+  token: string;
 }
 
 export default function Search({ users, param, setParam }: TodoSearchProps) {

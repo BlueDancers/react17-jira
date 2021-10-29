@@ -3,25 +3,38 @@ import {
   login as loginFun,
   register as registerFun,
   logout as logoutFun,
+  getToken,
 } from "../auto-provider";
 import { User } from "../pages/projectList/components/todoSearch";
+import { useMount } from "../utils";
+import { http } from "../utils/http";
 
 interface AuthForm {
   username: string;
   password: string;
 }
 
-const AuthContext = createContext<any>(undefined);
+const bootstrapUser = async () => {
+  let user = null;
+  const token = getToken();
+  if (token) {
+    const data = await http("me", {
+      token,
+    });
+    user = data.user;
+  }
+  return user;
+};
 
-// const AuthContext = createContext<
-//   | {
-//       user: User | null;
-//       register: (form: AuthForm) => Promise<void>;
-//       login: (form: AuthForm) => Promise<void>;
-//       logout: () => Promise<void>;
-//     }
-//   | undefined
-// >(undefined);
+const AuthContext = createContext<
+  | {
+      user: User | null;
+      register: (form: AuthForm) => Promise<void>;
+      login: (form: AuthForm) => Promise<void>;
+      logout: () => Promise<void>;
+    }
+  | undefined
+>(undefined);
 
 AuthContext.displayName = "AutoContext";
 
@@ -44,6 +57,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
     });
   }
+
+  useMount(() => {
+    bootstrapUser().then((res) => {
+      console.log(res);
+      setUser(res);
+    });
+  });
+
   return (
     <AuthContext.Provider
       children={children}

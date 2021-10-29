@@ -1,29 +1,41 @@
 import { User } from "./todoSearch";
+import { Table } from "antd";
+import { title } from "process";
+
+type Project = {
+  id: string;
+  name: string;
+  personId: string;
+};
 
 interface TodTableProps {
-  list: any[];
+  list: Project[];
   users: User[];
 }
 
-export default function Table({ list, users }: TodTableProps) {
+export default function TodoTable({ list, users }: TodTableProps) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((item) => (
-          <tr key={item.id}>
-            <td>{item.name}</td>
-            <td>
-              {users.find((user) => user.id === item.personId)?.name || "未知"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: "名称",
+          dataIndex: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: "负责人",
+          render(value, item) {
+            return (
+              <span>
+                {users.find((user) => user.id === item.personId)?.name ||
+                  "未知"}
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    />
   );
 }

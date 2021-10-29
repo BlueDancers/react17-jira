@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
 import { AuthProvider } from "./context/auth-context";
 
+import "antd/dist/antd.less";
+
 loadDevTools(() => {
   ReactDOM.render(
     <React.StrictMode>

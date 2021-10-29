@@ -1,3 +1,5 @@
+import { Input, Select } from "antd";
+
 interface TodoSearchProps {
   users: User[];
   param: {
@@ -16,15 +18,15 @@ export interface User {
 export default function Search({ users, param, setParam }: TodoSearchProps) {
   return (
     <div>
-      <input type="text" value={param.name} onChange={changeInput} />
-      <select value={param.personId} onChange={changeSelect}>
-        <option value="">全部</option>
+      <Input type="text" value={param.name} onChange={changeInput} />
+      <Select value={param.personId} onChange={changeSelect}>
+        <Select.Option value="">全部</Select.Option>
         {users.map((user) => (
-          <option key={user.id} value={user.id}>
+          <Select.Option key={user.id} value={user.id}>
             {user.name}
-          </option>
+          </Select.Option>
         ))}
-      </select>
+      </Select>
     </div>
   );
 
@@ -34,10 +36,10 @@ export default function Search({ users, param, setParam }: TodoSearchProps) {
       name: event.target.value,
     });
   }
-  function changeSelect(event) {
+  function changeSelect(value) {
     setParam({
       ...param,
-      personId: event.target.value,
+      personId: value,
     });
   }
 }

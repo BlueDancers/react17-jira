@@ -48,3 +48,25 @@ export function useHttp() {
   return (...[url, config]: Parameters<typeof http>) =>
     http(url, { ...config, token: user?.token });
 }
+
+function test(a: string, b: number, c: number[], d: any) {}
+
+// 直接继承test函数的全部参数类型
+function testPlus(...[a, b, c, d]: Parameters<typeof test>) {
+  console.log(a, b, c, d);
+}
+
+type Preson = {
+  name: string;
+  age: String;
+  sex: string;
+};
+
+// Partial关键字会将传入的类型处理成为非必填
+const xiaoMin: Partial<Preson> = {
+  age: "非必填",
+  name: "非必填",
+  sex: "非必填",
+};
+
+const shenMiRen: Omit<Preson, "age" | "name"> = { sex: "男" };

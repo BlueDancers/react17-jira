@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function cancelObj(object) {
+export function cancelObj(object: { [key: string]: unknown }) {
   const result = { ...object };
   Object.keys(result).map((key) => {
     const value = result[key];

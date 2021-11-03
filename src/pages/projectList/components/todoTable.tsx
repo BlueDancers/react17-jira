@@ -1,5 +1,5 @@
 import { User } from "./todoSearch";
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import { title } from "process";
 import dayjs from "dayjs";
 
@@ -11,15 +11,15 @@ type Project = {
   created: number;
 };
 
-interface TodTableProps {
-  list: Project[];
+interface TodTableProps extends TableProps<any> {
   users: User[];
 }
 
-export default function TodoTable({ list, users }: TodTableProps) {
+export default function TodoTable({ users, ...props }: TodTableProps) {
   return (
     <Table
       pagination={false}
+      rowKey={"id"}
       columns={[
         {
           title: "名称",
@@ -52,7 +52,7 @@ export default function TodoTable({ list, users }: TodTableProps) {
           },
         },
       ]}
-      dataSource={list}
+      {...props}
     />
   );
 }

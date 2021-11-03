@@ -4,6 +4,7 @@ import TodoSearch from "./components/todoSearch";
 import TodoTable from "./components/todoTable";
 import { cancelObj, useArray, useDebounce, useMount } from "../../utils";
 import { useHttp } from "../../utils/http";
+import { Typography } from "antd";
 
 // 请求地址
 const Url = process.env.REACT_APP_API_URL;
@@ -15,6 +16,8 @@ export default function List() {
     name: "",
     personId: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setErrror] = useState<null | Error>(null);
   // useArray使用
   // const [arrays, setArrays] = useState([2]);
   // const { value, add, clear, removeIndex } = useArray(arrays);
@@ -30,16 +33,28 @@ export default function List() {
   const debounceParam = useDebounce(param, 200);
   // 去抖处理的
   useEffect(() => {
-    client("projects", { data: cancelObj(debounceParam) }).then((res) => {
-      console.log(res);
-      setTodoList(res);
-    });
+    setLoading(true);
+    client("projects", { data: cancelObj(debounceParam) })
+      .then((res) => {
+        console.log(res);
+        setTodoList(res);
+      })
+      .catch((err) => {
+        setErrror(err);
+        setTodoList([]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [debounceParam]);
 
   return (
     <div>
       <TodoSearch users={users} param={param} setParam={setParam} />
-      <TodoTable list={todolist} users={users} />
+      {error && (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      )}
+      <TodoTable loading={loading} dataSource={todolist} users={users} />
     </div>
   );
 }

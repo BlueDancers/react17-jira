@@ -1,10 +1,11 @@
 import { FormEvent, useEffect } from "react";
 import { useAuth } from "../../context/auth-context";
 import { Button, Form, Input } from "antd";
+import { useAsync } from "../../utils/useAsync";
 
-const Url = process.env.REACT_APP_API_URL;
 export default function LoginScreen() {
   const { login, user } = useAuth();
+  const loginData = useAsync<any>();
   return (
     <Form onFinish={handleSubmit}>
       <Form.Item
@@ -20,7 +21,7 @@ export default function LoginScreen() {
         <Input placeholder="密码" type="text" id="password" />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" type="primary">
+        <Button loading={loginData.isLoading} htmlType="submit" type="primary">
           登录
         </Button>
       </Form.Item>
@@ -44,8 +45,8 @@ export default function LoginScreen() {
 
   function handleSubmit(values: { username: string; password: string }) {
     // 发起请求
-    login({ ...values }).then((res) => {
-      console.log(res, user);
+    loginData.run(login({ ...values })).catch(() => {
+      console.log(loginData);
     });
   }
 }

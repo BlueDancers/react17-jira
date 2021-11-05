@@ -8,6 +8,7 @@ import {
 import { User } from "../pages/projectList/components/todoSearch";
 import { useMount } from "../utils";
 import { http } from "../utils/http";
+import { useAsync } from "../utils/useAsync";
 
 interface AuthForm {
   username: string;
@@ -39,36 +40,46 @@ const AuthContext = createContext<
 AuthContext.displayName = "AutoContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const userReq = useAsync<User | null>();
   function login(form: AuthForm) {
     return loginFun(form).then((res) => {
       console.log(res);
-      setUser(res);
+      userReq.setData(res);
     });
   }
   function register(form: AuthForm) {
     return registerFun(form).then((res) => {
       console.log(res);
-      setUser(res);
+      userReq.setData(res);
     });
   }
   function logout() {
     return logoutFun().then((res) => {
-      setUser(null);
+      userReq.setData(null);
     });
   }
 
   useMount(() => {
-    bootstrapUser().then((res) => {
-      console.log(res);
-      setUser(res);
-    });
+    userReq.run(bootstrapUser());
   });
+  // 如果在加载状态
+  if (userReq.isIdle || userReq.isLoading) {
+    return <p>loading.....</p>;
+  }
 
+  if (userReq.isError) {
+    return <p>失败了.....</p>;
+  }
+  // 真实的dom
   return (
     <AuthContext.Provider
       children={children}
-      value={{ user, login, register, logout }}
+      value={{
+        user: userReq.data,
+        login,
+        register,
+        logout,
+      }}
     />
   );
 };

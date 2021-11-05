@@ -25,7 +25,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "craco start",
+    "dev": "cross-env REACT_APP_ENV=production craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
@@ -55,6 +55,7 @@
     "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
     "@types/qs": "^6.9.7",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^7.0.4",

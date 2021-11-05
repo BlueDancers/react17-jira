@@ -8,8 +8,10 @@ import ProjectList from "./pages/projectList";
  */
 export function AuthenicatedApp() {
   const { logout } = useAuth();
+  const value: any = undefined;
   return (
     <div>
+      {value.xxxxx}
       <PageHeader>
         <button onClick={logout}>登出</button>
       </PageHeader>

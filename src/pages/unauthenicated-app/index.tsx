@@ -8,6 +8,13 @@ export function UnAuthenicated() {
   const [isRegister, setIsRegister] = useState(false);
   return (
     <Container>
+      <Button
+        onClick={() => {
+          throw new Error("啊哈哈哈");
+        }}
+      >
+        抛出异常
+      </Button>
       <CardCont>
         {isRegister ? (
           <RegisterScreen></RegisterScreen>

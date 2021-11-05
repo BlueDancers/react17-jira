@@ -15,3 +15,7 @@ export const Row = styled.div<{
 export const shopLabel = styled.span`
   display: flex;
 `;
+
+export const fallPageErrorFallback = ({ error }: { error: Error | null }) => (
+  <p>请求失败了,错误信息{error}</p>
+);
